@@ -11,12 +11,7 @@
 			}
 		}
 
-		  //ii) Prevents Inheritance: Enforce strict control of logic. It cannot be extended which helps in improving security and stability.
-			final class NoExtend {
-    				public void show() {
-        					System.out.println("This class cannot be extended.");
-   				}
-			}
+
 		  //iii) Prevents Overriding - 
 
 			class Parent {
