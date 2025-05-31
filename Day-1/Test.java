@@ -1,13 +1,4 @@
-		// this file should be in package1 which is a folder basically
-		package package1;
 
-		public class HelloWorld {
-    			public void hello() {
-        				System.out.println("Hello from package1!");
-    			}
-		}
-		
-		———————————————————————————-
 		// this file in package 2 that means in another folder
 
 		package package2;		
@@ -19,7 +10,7 @@
         				obj.hello();   		 	
 			}
 		}
-i) Constant holder : the value is constant now can be used to store the values like PI.
+//i) Constant holder : the value is constant now can be used to store the values like PI.
 		final class HiYo {
     			public static final String s = "Avonash";
 
@@ -33,13 +24,13 @@ i) Constant holder : the value is constant now can be used to store the values l
 
 
 
-		  ii) Prevents Inheritance: Enforce strict control of logic. It cannot be extended which helps in improving security and stability.
+		  //ii) Prevents Inheritance: Enforce strict control of logic. It cannot be extended which helps in improving security and stability.
 			final class NoExtend {
     				public void show() {
         					System.out.println("This class cannot be extended.");
    				}
 			}
-		  iii) Prevents Overriding - 
+		  //iii) Prevents Overriding - 
 
 			class Parent {
 		    		public final void display() {
