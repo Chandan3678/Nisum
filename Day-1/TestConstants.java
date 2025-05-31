@@ -3,7 +3,6 @@
     			public static final String s = "Avonash";
 
 		}
-
 		public class TestConstants {
     			public static void main(String[] args) {
         				System.out.println(HiYo.s);
