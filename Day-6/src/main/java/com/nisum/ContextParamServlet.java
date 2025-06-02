@@ -1,21 +1,28 @@
 package com.nisum;
 
+import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import java.io.IOException;
 
-public class ContextParamServlet extends HttpServlet{
+public class ContextParamServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
-        ServletContext context = req.getServletContext();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        String organization = context.getInitParameter("organization");
-        String location = context.getInitParameter("location");
+        ServletContext appContext = getServletContext();
 
-        resp.setContentType("text/html");
-        resp.getWriter().println("<h2>Context Parameters</h2>");
-        resp.getWriter().println("<p>Organization: " + organization + "</p>");
-        resp.getWriter().println("<p>Location: " + location + "</p>");
+        String orgName = appContext.getInitParameter("organization");
+        String city = appContext.getInitParameter("location");
+
+        response.setContentType("text/html");
+
+        String html = "<html><head><title>Context Info</title></head><body>"
+                    + "<h2>Context Parameter Details</h2>"
+                    + "<p><strong>Organization:</strong> " + orgName + "</p>"
+                    + "<p><strong>Location:</strong> " + city + "</p>"
+                    + "</body></html>";
+
+        response.getWriter().write(html);
     }
 }
