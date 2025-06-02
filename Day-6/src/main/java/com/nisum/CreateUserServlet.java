@@ -1,54 +1,68 @@
 package com.nisum;
+
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
-public class CreateUserServlet extends HttpServlet {
+public class UserRegistrationServlet extends HttpServlet {
 
-    private final Map<String, User> users = new HashMap<>();
+    // Thread-safe user store
+    private final Map<String, User> userDirectory = new ConcurrentHashMap<>();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String username = req.getParameter("username");
-        String email = req.getParameter("email");
+        String name = request.getParameter("username");
+        String userEmail = request.getParameter("email");
 
-        if (username == null || email == null || username.isEmpty() || email.isEmpty()) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Both username and email are required.");
+        if (isInvalid(name) || isInvalid(userEmail)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username and Email must not be empty.");
             return;
         }
 
-        users.put(email, new User(username, email));
+        userDirectory.put(userEmail, new User(name, userEmail));
 
-        resp.setContentType("text/html");
-        resp.getWriter().write("<h2>User Created Successfully</h2>");
-        resp.getWriter().write("<p>Username: " + username + "</p>");
-        resp.getWriter().write("<p>Email: " + email + "</p>");
+        response.setContentType("text/html;charset=UTF-8");
+        StringBuilder html = new StringBuilder();
+        html.append("<html><body>")
+            .append("<h2>New User Registered</h2>")
+            .append("<p><strong>Name:</strong> ").append(name).append("</p>")
+            .append("<p><strong>Email:</strong> ").append(userEmail).append("</p>")
+            .append("</body></html>");
+
+        response.getWriter().write(html.toString());
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String pathInfo = req.getPathInfo();
+        String emailLookup = extractEmailFromPath(request.getPathInfo());
 
-        if (pathInfo == null || pathInfo.equals("/")) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email must be provided in the path.");
+        if (emailLookup == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing user email in the request path.");
             return;
         }
 
-        String email = pathInfo.substring(1);
-        User user = users.get(email);
+        User foundUser = userDirectory.get(emailLookup);
 
-        if (user == null) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found.");
+        if (foundUser == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "User with provided email not found.");
             return;
         }
 
-        resp.setContentType("application/json");
-        resp.getWriter().write(user.toString());
+        response.setContentType("application/json");
+        response.getWriter().write(foundUser.toString()); // Make sure User#toString returns valid JSON
+    }
+
+    private boolean isInvalid(String input) {
+        return input == null || input.trim().isEmpty();
+    }
+
+    private String extractEmailFromPath(String path) {
+        return (path != null && path.length() > 1) ? path.substring(1) : null;
     }
 }
