@@ -10,7 +10,7 @@ public class UpdateStudent {
         String password = "admin@123";
 
         int studentId = 1;              
-        String newName = "Avinash Rath";
+        String newName = "Chandan Rath";
 
         Connection connection = DriverManager.getConnection(url, username, password);
 
