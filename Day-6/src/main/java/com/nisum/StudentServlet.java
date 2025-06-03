@@ -1,46 +1,52 @@
-package com.nisum;
+package com.nisum.database;
 
+import javax.servlet.*;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
 
-public class StudentServlet extends HttpServlet {
-    String url = "jdbc:mysql://localhost:3306/jdbc";
-    String username = "root";
-    String password = "admin@123";
+public class StudentRecordsServlet extends HttpServlet {
+
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbc";
+    private static final String DB_USER = "root";
+    private static final String DB_PASS = "admin@123";
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter writer = response.getWriter()) {
 
-        out.println("<html><head><title>Student List</title></head><body>");
-        out.println("<h2>Student Records</h2>");
-        out.println("<table border='1'><tr><th>ID</th><th>Name</th><th>Roll No</th><th>Department</th></tr>");
+            writer.println("<html><head><title>Students Overview</title></head><body>");
+            writer.println("<h1>List of Students</h1>");
+            writer.println("<table border='1' cellpadding='8' cellspacing='0'>");
+            writer.println("<thead><tr><th>ID</th><th>Name</th><th>Roll Number</th><th>Department</th></tr></thead>");
+            writer.println("<tbody>");
 
-        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, username, password);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM students");
 
-            while (rs.next()) {
-                out.println("<tr><td>" + rs.getInt("id") + "</td>"
-                        + "<td>" + rs.getString("name") + "</td>"
-                        + "<td>" + rs.getString("class") + "</td></tr>"
-                        + "<td>" + rs.getString("department") + "</td></tr>");
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+                 Statement statement = conn.createStatement();
+                 ResultSet resultSet = statement.executeQuery("SELECT * FROM students")) {
+
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String studentName = resultSet.getString("name");
+                    String rollNo = resultSet.getString("class");
+                    String department = resultSet.getString("department");
+
+                    writer.printf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td></tr>%n",
+                            id, studentName, rollNo, department);
+                }
             }
 
-            out.println("</table>");
-            con.close();
-        } catch (Exception e) {
-            out.println("<p>Error: " + e.getMessage() + "</p>");
-        }
+            writer.println("</tbody></table>");
+            writer.println("</body></html>");
 
-        out.println("</body></html>");
+        } catch (Exception ex) {
+            throw new ServletException("Database access error: " + ex.getMessage(), ex);
+        }
     }
 }
