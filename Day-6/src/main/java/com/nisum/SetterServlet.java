@@ -1,22 +1,25 @@
-package com.nisum;
+package com.nisum.session;
 
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-public class SetterServlet extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+public class SessionInitializer extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter writer = resp.getWriter();
 
-        HttpSession session = request.getSession();
+        HttpSession currentSession = req.getSession(true);
 
-        session.setAttribute("username", "Madhusmita");
-        session.setAttribute("role", "Student");
+        currentSession.setAttribute("userName", "Madhusmita");
+        currentSession.setAttribute("userRole", "Student");
 
-        out.println("<h3>Session attributes set successfully!</h3>");
-        out.println("<a href='getter'>Go to GetterServlet</a>");
+        writer.println("<h2>Session data initialized!</h2>");
+        writer.println("<p><a href='getter'>Visit GetterServlet to view session data</a></p>");
     }
 }
