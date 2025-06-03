@@ -1,17 +1,23 @@
-package com.nisum;
+package com.nisum.web;
 
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.IOException;
 
-public class FirstServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+public class InitiateServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        
+        String userInput = req.getParameter("username");
+        if (userInput == null) {
+            userInput = "Guest";
+        }
 
-        String username = request.getParameter("username");
-        request.setAttribute("user", username);
+        req.setAttribute("user", userInput);
 
-        RequestDispatcher rd = request.getRequestDispatcher("SecondServlet");
-        rd.forward(request, response);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("NextStepServlet");
+        dispatcher.forward(req, res);
     }
 }
