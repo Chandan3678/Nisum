@@ -1,20 +1,22 @@
-package com.nisum;
+package com.nisum.session;
 
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.IOException;
 
-public class Page2Servlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+public class EducationInfoServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        String qualification = request.getParameter("qualification");
-        String university = request.getParameter("university");
+        String degree = req.getParameter("qualification");
+        String institute = req.getParameter("university");
 
-        HttpSession session = request.getSession();
-        session.setAttribute("qualification", qualification);
-        session.setAttribute("university", university);
+        HttpSession eduSession = req.getSession(true);
+        eduSession.setAttribute("degree", degree);
+        eduSession.setAttribute("institute", institute);
 
-        response.sendRedirect("confirm.jsp");
+        res.sendRedirect("confirmation.jsp");
     }
 }
