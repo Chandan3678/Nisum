@@ -33,11 +33,12 @@ public class MovieCollectionManager {
         Scanner sc = new Scanner(System.in);
         boolean running = true;
 
-        // Sample movies
-        addMovie("Inception", "Christopher Nolan", "Sci-Fi", 2010, 8.8);
-        addMovie("The Dark Knight", "Christopher Nolan", "Action", 2008, 9.0);
-        addMovie("The Godfather", "Francis Ford Coppola", "Crime", 1972, 9.2);
-        addMovie("Forrest Gump", "Robert Zemeckis", "Drama", 1994, 8.8);
+// Sample movies
+addMovie("Interstellar", "Christopher Nolan", "Sci-Fi", 2014, 8.6);
+addMovie("Pulp Fiction", "Quentin Tarantino", "Crime", 1994, 8.9);
+addMovie("The Shawshank Redemption", "Frank Darabont", "Drama", 1994, 9.3);
+addMovie("The Matrix", "Lana Wachowski, Lilly Wachowski", "Action", 1999, 8.7);
+
 
         while (running) {
             // Show menu
