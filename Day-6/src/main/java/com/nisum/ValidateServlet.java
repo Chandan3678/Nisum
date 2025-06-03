@@ -1,42 +1,106 @@
-package com.nisum;
+package com.nisum.validation;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
 
-public class ValidateServlet extends HttpServlet {
+public class UserInputValidator extends HttpServlet {
 
-    private static final String EMAIL = "^[\\w.-]+@[\\w.-]+\\.\\w{2,}$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$");
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
+        String user = req.getParameter("username");
+        String userEmail = req.getParameter("email");
 
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
+        resp.setContentType("text/html;charset=UTF-8");
 
-        String errorMessage = null;
-        if (username == null || username.trim().isEmpty()) {
-            errorMessage = "Username is required.";
-        } else if (email == null || email.trim().isEmpty()) {
-            errorMessage = "Email is required.";
-        } else if (!Pattern.matches(EMAIL, email)) {
-            errorMessage = "Invalid email format.";
+        try (PrintWriter writer = resp.getWriter()) {
+
+            String message;
+
+            if (user == null || user.trim().isEmpty()) {
+                message = "<span style='color:red;'>Error: Username cannot be empty.</span>";
+            } else if (userEmail == null || userEmail.trim().isEmpty()) {
+                message = "<span style='color:red;'>Error: Email is mandatory.</span>";
+            } else {
+                Matcher matcher = EMAIL_PATTERN.matcher(userEmail);
+                if (!matcher.matches()) {
+                    message = "<span style='color:red;'>Error: Email format is incorrect.</span>";
+                } else {
+                    message = "<span style='color:green;'>Validation successful!</span>";
+                }
+            }
+
+            writer.println("<html><body>");
+            writer.println("<h3>" + message + "</h3>");
+
+            if (message.contains("successful")) {
+                writer.println("<p>Username: <strong>" + user + "</strong></p>");
+                writer.println("<p>Email Address: <strong>" + userEmail + "</strong></p>");
+            } else {
+                writer.println("<a href='form.html'>Return to form</a>");
+            }
+
+            writer.println("</body></html>");
         }
+    }
+}
+package com.nisum.validation;
 
-        out.println("<html><body>");
-        if (errorMessage != null) {
-            out.println("<h3 style='color:red;'>Error: " + errorMessage + "</h3>");
-            out.println("<a href='form.html'>Go Back</a>");
-        } else {
-            out.println("<h3 style='color:green;'>Success! Your data is valid.</h3>");
-            out.println("<p>Username: " + username + "</p>");
-            out.println("<p>Email: " + email + "</p>");
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class UserInputValidator extends HttpServlet {
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$");
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        String user = req.getParameter("username");
+        String userEmail = req.getParameter("email");
+
+        resp.setContentType("text/html;charset=UTF-8");
+
+        try (PrintWriter writer = resp.getWriter()) {
+
+            String message;
+
+            if (user == null || user.trim().isEmpty()) {
+                message = "<span style='color:red;'>Error: Username cannot be empty.</span>";
+            } else if (userEmail == null || userEmail.trim().isEmpty()) {
+                message = "<span style='color:red;'>Error: Email is mandatory.</span>";
+            } else {
+                Matcher matcher = EMAIL_PATTERN.matcher(userEmail);
+                if (!matcher.matches()) {
+                    message = "<span style='color:red;'>Error: Email format is incorrect.</span>";
+                } else {
+                    message = "<span style='color:green;'>Validation successful!</span>";
+                }
+            }
+
+            writer.println("<html><body>");
+            writer.println("<h3>" + message + "</h3>");
+
+            if (message.contains("successful")) {
+                writer.println("<p>Username: <strong>" + user + "</strong></p>");
+                writer.println("<p>Email Address: <strong>" + userEmail + "</strong></p>");
+            } else {
+                writer.println("<a href='form.html'>Return to form</a>");
+            }
+
+            writer.println("</body></html>");
         }
-        out.println("</body></html>");
     }
 }
