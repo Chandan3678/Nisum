@@ -21,12 +21,13 @@ public class ProductSorter {
     public static void main(String[] args) {
         List<Product> products = new ArrayList<>();
 
-        products.add(new Product("Face Wash", "Personal Care", 4.99));
-        products.add(new Product("Toothpaste", "Personal Care", 2.99));
-        products.add(new Product("Laptop", "Electronics", 899.99));
-        products.add(new Product("Phone", "Electronics", 19.99));
-        products.add(new Product("Aloo", "Grocery", 1.99));
-        products.add(new Product("Onion", "Grocery", 0.99));
+products.add(new Product("Moisturizer", "Personal Care", 7.49));
+products.add(new Product("Mouthwash", "Personal Care", 3.49));
+products.add(new Product("Smart TV", "Electronics", 1099.99));
+products.add(new Product("Wireless Earbuds", "Electronics", 129.99));
+products.add(new Product("Potatoes", "Grocery", 2.49));
+products.add(new Product("Tomatoes", "Grocery", 1.29));
+
 
         products.sort(Comparator
                 .comparing((Product p) -> p.category)
