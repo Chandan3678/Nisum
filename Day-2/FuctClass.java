@@ -3,7 +3,7 @@
 public class FuctClass {
     public static void main(String[] args) {
         Greeting greet = new MyGreeting();
-        greet.sayHello("Avinash");
+        greet.sayHello("Chandan");
         greet.sayHello("Rath");
     }
 }
