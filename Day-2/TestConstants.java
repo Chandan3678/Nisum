@@ -1,6 +1,6 @@
 //i) Constant holder : the value is constant now can be used to store the values like PI.
 		final class HiYo {
-    			public static final String s = "Avonash";
+    			public static final String s = "Chandan";
 
 		}
 		public class TestConstants {
