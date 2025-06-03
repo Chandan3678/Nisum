@@ -1,17 +1,24 @@
-package com.nisum;
+package com.nisum.web;
 
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-public class SecondServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+public class GreetingServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        String name = (String) request.getAttribute("user");
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter writer = resp.getWriter();
 
-        out.println("<h2>Welcome, " + name + "!</h2>");
+        Object userObj = req.getAttribute("user");
+        String userName = (userObj != null) ? userObj.toString() : "Guest";
+
+        writer.println("<html><head><title>Greeting</title></head><body>");
+        writer.printf("<h1>Hello, %s!</h1>%n", userName);
+        writer.println("</body></html>");
     }
 }
