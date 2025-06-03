@@ -1,27 +1,32 @@
-package com.nisum;
+package com.nisum.model;
 
-public class User {
-    String username;
-    String email;
+public class Account {
 
-    public String getUsername() {
-        return username;
+    private String userId;
+    private String contactEmail;
+
+    public Account() {
+        // Default constructor
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Account(String userId, String contactEmail) {
+        this.userId = userId;
+        this.contactEmail = contactEmail;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public User(String email, String username) {
-        this.email = email;
-        this.username = username;
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 }
