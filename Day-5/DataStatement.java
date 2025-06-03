@@ -15,7 +15,7 @@ public class DataStatement {
                              "age INT)";
         statement.executeUpdate(createTable);
 
-        String insert = "INSERT INTO students (id, name, age) VALUES (1, 'Avinash', 20)";
+        String insert = "INSERT INTO students (id, name, age) VALUES (1, 'Chandan', 20)";
         int rowsInserted = statement.executeUpdate(insert);
 
         if (rowsInserted > 0) {
