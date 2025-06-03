@@ -1,20 +1,22 @@
-package com.nisum;
+package com.nisum.session;
 
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.IOException;
 
-public class Page1Servlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+public class UserInfoCollectorServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
+        String userName = req.getParameter("name");
+        String userEmail = req.getParameter("email");
 
-        HttpSession session = request.getSession();
-        session.setAttribute("name", name);
-        session.setAttribute("email", email);
+        HttpSession userSession = req.getSession(true);
+        userSession.setAttribute("userName", userName);
+        userSession.setAttribute("userEmail", userEmail);
 
-        response.sendRedirect("page2.html");
+        res.sendRedirect("nextPage.html");
     }
 }
