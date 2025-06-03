@@ -1,33 +1,41 @@
-package com.nisum;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+package com.nisum.web;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-public class FeedbackServlet extends HttpServlet {
-    private static final List<String> feedbackList = new ArrayList<>();
+import javax.servlet.http.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
-        String name = req.getParameter("name");
-        String feedback = req.getParameter("feedback");
+public class ReviewServlet extends HttpServlet {
 
-        String entry = "Name: " + name + " | Feedback: " + feedback;
-        feedbackList.add(entry);
+    private static final List<String> reviews = Collections.synchronizedList(new LinkedList<>());
 
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        out.println("<h2>Thank you for your feedback, " + name + "!</h2>");
-        out.println("<h3>All Feedbacks:</h3>");
-        out.println("<ul>");
-        for (String fb : feedbackList) {
-            out.println("<li>" + fb + "</li>");
+        String user = request.getParameter("name");
+        String comment = request.getParameter("feedback");
+
+        String combinedReview = String.format("User: %s | Comment: %s", user != null ? user : "Anonymous", comment != null ? comment : "No feedback");
+        reviews.add(combinedReview);
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter writer = response.getWriter();
+
+        writer.println("<!DOCTYPE html>");
+        writer.println("<html><head><title>Feedback Summary</title></head><body>");
+        writer.printf("<h2>Hi %s, your input has been received!</h2>%n", user != null ? user : "Guest");
+        writer.println("<h3>Collected Feedback:</h3><ol>");
+
+        synchronized (reviews) {
+            for (String entry : reviews) {
+                writer.printf("<li>%s</li>%n", entry);
+            }
         }
-        out.println("</ul>");
+
+        writer.println("</ol></body></html>");
     }
 }
