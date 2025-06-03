@@ -1,25 +1,44 @@
-package com.nisum;
+package com.nisum.web;
 
-import javax.servlet.*;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-public class DemoServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
-        String name = req.getParameter("name");
+public class RequestHandlerServlet extends HttpServlet {
 
-        resp.setContentType("text/html");
-        resp.getWriter().println("<h2>This is a GET request</h2>");
-        resp.getWriter().println("<p>Name:" + name + "</p>");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        processRequest(request, response, "GET");
     }
 
-    protected void doPost(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
-        String name = req.getParameter("name");
-
-        resp.setContentType("text/html");
-        resp.getWriter().println("<h2>This is a POST request</h2>");
-        resp.getWriter().println("<p>Name:" + name + "</p>");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        processRequest(request, response, "POST");
     }
 
+    private void processRequest(HttpServletRequest request, HttpServletResponse response, String methodType)
+            throws IOException {
 
+        String userName = request.getParameter("name");
+        if (userName == null || userName.trim().isEmpty()) {
+            userName = "Guest";
+        }
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head><title>Request Response</title></head>");
+        out.println("<body>");
+        out.printf("<h1>Received a %s Request</h1>%n", methodType);
+        out.printf("<div><strong>User:</strong> %s</div>%n", userName);
+        out.println("</body>");
+        out.println("</html>");
+    }
 }
