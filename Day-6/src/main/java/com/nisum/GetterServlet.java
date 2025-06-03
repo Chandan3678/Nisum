@@ -1,31 +1,39 @@
-package com.nisum;
+package com.nisum.web;
 
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-public class GetterServlet extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+public class SessionInfoServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
+        res.setContentType("text/html;charset=UTF-8");
+        PrintWriter writer = res.getWriter();
 
-        HttpSession session = request.getSession(false);
+        HttpSession userSession = req.getSession(false);
 
-        if (session != null) {
-            String username = (String) session.getAttribute("username");
-            String role = (String) session.getAttribute("role");
+        writer.println("<!DOCTYPE html>");
+        writer.println("<html><head><title>User Session Info</title></head><body>");
 
-            if (username != null && role != null) {
-                out.println("<h3>Session Data Retrieved:</h3>");
-                out.println("<p>Username: " + username + "</p>");
-                out.println("<p>Role: " + role + "</p>");
+        if (userSession != null) {
+            String name = (String) userSession.getAttribute("username");
+            String userRole = (String) userSession.getAttribute("role");
+
+            if (name != null && userRole != null) {
+                writer.println("<h2>Welcome Back!</h2>");
+                writer.printf("<p><strong>Name:</strong> %s</p>%n", name);
+                writer.printf("<p><strong>Role:</strong> %s</p>%n", userRole);
             } else {
-                out.println("<p>No session data found.</p>");
+                writer.println("<p>Session exists, but required data is missing.</p>");
             }
         } else {
-            out.println("<p>No session found. Please access the setter servlet first.</p>");
+            writer.println("<p>No active session found. Please log in or set session data first.</p>");
         }
+
+        writer.println("</body></html>");
     }
 }
