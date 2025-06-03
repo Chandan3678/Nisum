@@ -30,10 +30,10 @@ public class EmployeeRecords {
         Scanner sc = new Scanner(System.in);
         TreeSet<Employee> employees = new TreeSet<>();
 
-        employees.add(new Employee(1, "Avinash", "IT", 30000));
-        employees.add(new Employee(2, "Ashwini", "Law", 70000));
-        employees.add(new Employee(3, "Biswas", "MBBS", 155000));
-        employees.add(new Employee(4, "Arnab", "MBBS", 88000));
+        employees.add(new Employee(1, "Chandan", "IT", 30000));
+        employees.add(new Employee(2, "Yash", "Law", 70000));
+        employees.add(new Employee(3, "Prathamesh", "MBBS", 155000));
+        employees.add(new Employee(4, "Jibitesh", "MBBS", 88000));
 
         System.out.println("Employee Records (Sorted by Name):");
         displayEmployees(employees);
