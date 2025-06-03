@@ -1,15 +1,17 @@
-package com.nisum;
+package com.nisum.utility;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-public class RedirectServlet extends HttpServlet {
+public class ExternalLinkForwarder extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        resp.sendRedirect("https://www.google.com");
+        String targetURL = "https://www.google.com";
+        response.setStatus(HttpServletResponse.SC_FOUND); // 302 status code
+        response.setHeader("Location", targetURL);
     }
 }
