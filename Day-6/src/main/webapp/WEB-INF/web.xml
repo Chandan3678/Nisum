@@ -58,7 +58,7 @@
     <servlet-class>com.nisum.ConfigExampleServlet</servlet-class>
     <init-param>
       <param-name>developerName</param-name>
-      <param-value>Avinash</param-value>
+      <param-value>Chandan</param-value>
     </init-param>
     <init-param>
       <param-name>project</param-name>
