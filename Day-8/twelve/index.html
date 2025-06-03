@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loop Through Object</title>
+</head>
+<body>
+  <h2>Loop Through Object Example</h2>
+  <div id="output"></div>
+
+  <script>
+    const user = {
+      name: "Alice",
+      age: 25,
+      email: "alice@example.com"
+    };
+
+    const outputDiv = document.getElementById("output");
+
+    for (let key in user) {
+      if (user.hasOwnProperty(key)) {
+        const value = user[key];
+        const p = document.createElement("p");
+        p.textContent = `${key}: ${value}`;
+        outputDiv.appendChild(p);
+      }
+    }
+  </script>
+</body>
+</html>

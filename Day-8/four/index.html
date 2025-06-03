@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Class Example</title>
+</head>
+<body>
+
+<script>
+  class Car {
+    constructor(brand, speed) {
+      this.brand = brand;
+      this.speed = speed;
+    }
+
+    accelerate() {
+      this.speed += 10;
+      console.log(`${this.brand} is now going at ${this.speed} km/h`);
+    }
+  }
+
+
+  const myCar = new Car('Rolls Royce', 50);
+  myCar.accelerate(); 
+  myCar.accelerate(); 
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic List</title>
+  <style>
+   body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f5f9;
+  color: #333;
+  padding: 40px;
+  max-width: 600px;
+  margin: auto;
+}
+
+input[type="text"] {
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1px solid #b0c4de;
+  border-radius: 6px;
+  width: 60%;
+  background-color: #ffffff;
+}
+
+button {
+  padding: 10px 18px;
+  font-size: 15px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+ul {
+  margin-top: 30px;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background-color: #ffffff;
+  border-left: 4px solid #007acc;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+  </style>
+</head>
+<body>
+
+  <h2>Dynamic List Creator</h2>
+  <input type="text" id="itemInput" placeholder="Enter item">
+  <button onclick="addItem()">Add</button>
+
+  <ul id="itemList"></ul>
+
+  <script>
+    function addItem() {
+      const input = document.getElementById("itemInput");
+      const value = input.value.trim();
+
+      if (value !== "") {
+        const li = document.createElement("li");
+        li.textContent = value;
+        document.getElementById("itemList").appendChild(li);
+        input.value = ""; 
+      } else {
+        alert("Please enter a valid item.");
+      }
+    }
+  </script>
+
+</body>
+</html>

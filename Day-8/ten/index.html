@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Form Validation</title>
+<style>
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #eef2f7;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+form {
+  background: #ffffff;
+  padding: 30px 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  width: 400px;
+}
+
+h2 {
+  text-align: center;
+  color: #1a73e8;
+  margin-bottom: 24px;
+  font-size: 1.6rem;
+}
+
+label {
+  display: block;
+  margin-top: 18px;
+  font-weight: 600;
+  color: #2e2e2e;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 8px;
+  border: 1px solid #b0bec5;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f9fbfc;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #1a73e8;
+  outline: none;
+}
+
+.error-msg {
+  color: #d93025;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+button {
+  margin-top: 28px;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #1558b0;
+}
+
+</style>
+</head>
+<body>
+
+<form id="myForm" novalidate>
+  <h2>Sign Up</h2>
+
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" />
+  <div class="error-msg" id="name-error"></div>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" />
+  <div class="error-msg" id="email-error"></div>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" />
+  <div class="error-msg" id="password-error"></div>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  const form = document.getElementById('myForm');
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+
+  const nameError = document.getElementById('name-error');
+  const emailError = document.getElementById('email-error');
+  const passwordError = document.getElementById('password-error');
+
+  function validateEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+
+    nameError.textContent = '';
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    let valid = true;
+
+
+    if (nameInput.value.trim() === '') {
+      nameError.textContent = 'Name must not be empty';
+      valid = false;
+    }
+
+
+    if (emailInput.value.trim() === '') {
+      emailError.textContent = 'Email must not be empty';
+      valid = false;
+    } else if (!validateEmail(emailInput.value.trim())) {
+      emailError.textContent = 'Please enter a valid email address';
+      valid = false;
+    }
+
+
+    if (passwordInput.value.length < 6) {
+      passwordError.textContent = 'Password must be at least 6 characters';
+      valid = false;
+    }
+
+    if (valid) {
+      alert('Form submitted successfully!');
+      form.reset();
+    }
+  });
+</script>
+
+</body>
+</html>
