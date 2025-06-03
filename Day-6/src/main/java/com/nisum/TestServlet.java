@@ -1,14 +1,22 @@
-package com.nisum;
+package com.nisum.demo;
 
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-public class TestServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+public class HealthCheckServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<h3>Test Servlet Accessed</h3>");
+
+        resp.setContentType("text/html;charset=UTF-8");
+
+        try (PrintWriter writer = resp.getWriter()) {
+            writer.println("<div style='font-family:sans-serif; color:green;'>");
+            writer.println("<h3>Servlet is up and running!</h3>");
+            writer.println("</div>");
+        }
     }
 }
