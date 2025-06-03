@@ -24,7 +24,7 @@ class Student extends Person {
 public class AbsClassEx {
     public static void main(String[] args) {
        
-        Student student = new Student("Avi", 21);
+        Student student = new Student("Chandan", 21);
         student.displayInfo(); 
         student.introduce();   
     }
