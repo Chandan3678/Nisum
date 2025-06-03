@@ -1,25 +1,31 @@
-package com.nisum;
+package com.nisum.middleware;
 
-import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
-public class LoggingFilter implements Filter {
+public class RequestLoggerFilter implements Filter {
 
-    public void init(FilterConfig filterConfig) throws ServletException {
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+        // Initialization logic if needed
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String requestURL = httpRequest.getRequestURL().toString();
+        if (req instanceof HttpServletRequest) {
+            HttpServletRequest incomingRequest = (HttpServletRequest) req;
+            String fullURL = incomingRequest.getRequestURL().toString();
+            System.out.printf(">> Incoming request to: %s%n", fullURL);
+        }
 
-        System.out.println("Request URL Logged: " + requestURL);
-
-        chain.doFilter(request, response);
+        chain.doFilter(req, res);
     }
 
+    @Override
     public void destroy() {
+        // Cleanup logic if needed
     }
 }
