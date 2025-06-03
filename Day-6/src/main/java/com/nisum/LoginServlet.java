@@ -1,27 +1,36 @@
-package com.nisum;
+package com.nisum.auth;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-public class LoginServlet extends HttpServlet {
-    private static final String Vusername = "admin";
-    private static final String Vpassword = "1234";
+public class AuthServlet extends HttpServlet {
+
+    private static final String VALID_USER = "admin";
+    private static final String VALID_PASS = "1234";
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException{
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        resp.setContentType("text/html");
+        String userInput = request.getParameter("username");
+        String passInput = request.getParameter("password");
 
-        if(Vusername.equals(username)&&Vpassword.equals(password)){
-            resp.getWriter().println("<h2>Login Successful!</h2>");
-            resp.getWriter().println("<p>Welcome, " + username + "</p>");
-        }else{
-            resp.getWriter().println("<h2>Login Failed</h2>");
-            resp.getWriter().println("<p>Invalid username or password.</p>");
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        out.println("<!DOCTYPE html>");
+        out.println("<html><head><title>Authentication Result</title></head><body>");
+
+        if (VALID_USER.equals(userInput) && VALID_PASS.equals(passInput)) {
+            out.println("<h1>Access Granted</h1>");
+            out.printf("<p>Welcome, <strong>%s</strong>! You have successfully logged in.</p>%n", userInput);
+        } else {
+            out.println("<h1>Access Denied</h1>");
+            out.println("<p>The credentials you entered are incorrect. Please try again.</p>");
         }
+
+        out.println("</body></html>");
     }
 }
