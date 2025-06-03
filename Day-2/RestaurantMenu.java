@@ -28,11 +28,12 @@ public class RestaurantMenu {
         boolean running = true;
 
         // Sample data
-        addMenuItem("Appetizers", new MenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99));
-        addMenuItem("Appetizers", new MenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99));
-        addMenuItem("Main Course", new MenuItem("Grilled Chicken", "Chicken grilled to perfection", 12.99));
-        addMenuItem("Main Course", new MenuItem("Pasta", "Creamy pasta with mushrooms", 10.99));
-        addMenuItem("Desserts", new MenuItem("Chocolate Cake", "Rich chocolate cake with icing", 6.99));
+addMenuItem("Starters", new MenuItem("Bruschetta", "Grilled bread topped with tomato and basil", 6.49));
+addMenuItem("Starters", new MenuItem("Stuffed Mushrooms", "Mushrooms filled with cheese and herbs", 5.49));
+addMenuItem("Entrees", new MenuItem("BBQ Ribs", "Slow-cooked ribs with barbecue sauce", 14.99));
+addMenuItem("Entrees", new MenuItem("Vegetable Stir Fry", "Mixed veggies sautéed in soy sauce", 11.49));
+addMenuItem("Sweets", new MenuItem("Lemon Tart", "Tangy lemon custard in a crisp crust", 5.99));
+
 
         while (running) {
             System.out.println("\n--- Restaurant Menu System ---");
