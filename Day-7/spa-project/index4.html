@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semantic SPA</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+    <header>
+        <nav class="navbar">
+            <a href="#" onclick="loadPage('home')">Home</a>
+            <a href="#" onclick="loadPage('about')">About</a>
+            <a href="#" onclick="loadPage('contact')">Contact</a>
+        </nav>
+    </header>
+
+
+    <main id="content" class="content-area"></main>
+
+
+    <section id="home" style="display: none;">
+        <h1>Welcome to Our SPA</h1>
+        <p>This is a simple single-page application using HTML, CSS, and JavaScript.</p>
+        <img src="https://via.placeholder.com/300x200" alt="Sample Image" />
+        <ul>
+            <li>Fast</li>
+            <li>Responsive</li>
+            <li>User-friendly</li>
+        </ul>
+    </section>
+
+    <section id="about" style="display: none;">
+        <h2>About Us</h2>
+        <article>
+            <p>We are passionate about building modern web applications.</p>
+            <ol>
+                <li>Founded in 2024</li>
+                <li>Team of skilled developers</li>
+                <li>Focused on clean UI/UX</li>
+            </ol>
+        </article>
+    </section>
+
+    <section id="contact" style="display: none;">
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you. Fill out the form below:</p>
+        <form onsubmit="event.preventDefault(); alert('Form submitted!')">
+            <label>Name:<br /><input type="text" required /></label><br /><br />
+            <label>Email:<br /><input type="email" required /></label><br /><br />
+            <label>Message:<br /><textarea required></textarea></label><br /><br />
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2025 Avinash Rath. All rights reserved.</p>
+    </footer>
+
+
+    <script>
+        function loadPage(sectionId) {
+            const sections = ['home', 'about', 'contact'];
+            const content = document.getElementById('content');
+            content.innerHTML = document.getElementById(sectionId).innerHTML;
+        }
+
+
+        window.onload = () => loadPage('home');
+    </script>
+</body>
+</html>

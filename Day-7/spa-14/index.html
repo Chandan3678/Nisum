@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Transform on Hover</title>
+  <style>
+    .box {
+      width: 150px;
+      height: 150px;
+      background-color: steelblue;
+      margin: 50px auto;
+      transition: transform 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .box:hover {
+      transform: rotate(10deg) scale(1.1) translateY(-10px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box"></div>
+
+</body>
+</html>

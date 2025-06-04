@@ -1,0 +1,35 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.topbar {
+    background-color: #222;
+    text-align: center;
+    padding: 12px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.topbar a {
+    color: #e0e0e0;
+    padding: 12px 18px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.topbar a:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+.main-content {
+    margin: 40px auto;
+    max-width: 900px;
+    padding: 20px;
+    text-align: left;
+}
+
