@@ -5,18 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CSS Transform on Hover</title>
   <style>
-    .box {
-      width: 150px;
-      height: 150px;
-      background-color: steelblue;
-      margin: 50px auto;
-      transition: transform 0.3s ease;
-      border-radius: 10px;
-    }
+.shape {
+  width: 160px;
+  height: 160px;
+  background-color: #5c6bc0; /* a soft indigo shade */
+  margin: 40px auto;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .box:hover {
-      transform: rotate(10deg) scale(1.1) translateY(-10px);
-    }
+.shape:hover {
+  transform: perspective(500px) rotateZ(8deg) scale(1.08) translateY(-12px);
+}
+
   </style>
 </head>
 <body>
