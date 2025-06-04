@@ -1,53 +1,63 @@
 * {
-  box-sizing: border-box;
+  box-sizing: inherit;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: Arial, sans-serif;
+html {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.navbar {
+body {
+  background-color: #f4f4f4;
+  color: #222;
+}
+
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  padding: 15px 20px;
-  color: white;
+  background: #2c2c2c;
+  padding: 12px 18px;
+  color: #fff;
 }
 
-.brand {
-  font-size: 20px;
-  font-weight: bold;
+.logo {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.nav-links {
+.menu {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 1.2rem;
 }
 
-.nav-links li a {
+.menu li a {
+  color: #f0f0f0;
   text-decoration: none;
-  color: white;
-  transition: color 0.3s;
+  font-weight: 500;
+  transition: color 0.25s ease-in-out;
 }
 
-.nav-links li a:hover {
-  color: #ffa500;
+.menu li a:hover {
+  color: #ffb700;
 }
 
-@media screen and (max-width: 600px) {
-  .nav-links {
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    margin-top: 15px;
-  }
-
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+    margin-top: 12px;
+    gap: 10px;
   }
 }
+
