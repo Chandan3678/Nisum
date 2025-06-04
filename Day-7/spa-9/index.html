@@ -5,30 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hover Animation Button</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
+body {
+  font-family: 'Verdana', sans-serif;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: #eaeaea;
+  margin: 0;
+}
 
-    .animated-btn {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #3498db;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+.btn-fx {
+  padding: 12px 24px;
+  font-size: 15px;
+  background: #2980b9;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
 
-    .animated-btn:hover {
-      background-color: #2ecc71;
-      transform: scale(1.1);
-    }
+.btn-fx:hover {
+  background: #27ae60;
+  transform: scale(1.08);
+}
+
   </style>
 </head>
 <body>
