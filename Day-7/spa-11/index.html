@@ -5,57 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Product Card</title>
   <style>
-    .card {
-      width: 300px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      font-family: Arial, sans-serif;
-      margin: 50px auto;
-    }
+.product-box {
+  width: 320px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 40px auto;
+  background-color: #fff;
+}
 
-    .card img {
-      width: 100%;
-      height: auto;
-    }
+.product-box img {
+  width: 100%;
+  display: block;
+}
 
-    .card-content {
-      padding: 16px;
-    }
+.details {
+  padding: 18px;
+}
 
-    .card h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
+.details h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #222;
+}
 
-    .card p {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 12px;
-    }
+.details p {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 14px;
+}
 
-    .price {
-      font-size: 18px;
-      color: #000;
-      font-weight: bold;
-      margin-bottom: 16px;
-    }
+.cost {
+  font-size: 17px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
 
-    .buy-btn {
-      background-color: #28a745;
-      color: white;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 16px;
-    }
+.action-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
 
-    .buy-btn:hover {
-      background-color: #218838;
-    }
+.action-btn:hover {
+  background-color: #0069d9;
+}
+
   </style>
 </head>
 <body>
