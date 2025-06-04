@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order History</title>
+    <link rel="stylesheet" href="landing.css" />
+</head>
+<style>
+    .order-card {
+      border-radius: 12px;
+      margin: 20px auto;
+      max-width: 800px;
+      background: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      font-family: Arial, sans-serif;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: #f4f4f4;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .order-body {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .order-body img {
+      height: 60px;
+      width: 60px;
+      object-fit: contain;
+    }
+
+    .order-body h4 {
+      margin: 0 0 5px;
+      font-size: 16px;
+      color: #000;
+    }
+
+    .order-body p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .order-body button {
+      margin-left: auto;
+      padding: 8px 18px;
+      font-size: 14px;
+      border-radius: 25px;
+      border: 1px solid #333;
+      background: none;
+      cursor: pointer;
+    }
+
+    .order-header a {
+      font-size: 14px;
+      color: #1a0dab;
+      text-decoration: none;
+    }
+    .order-header a:hover {
+      text-decoration: underline;
+    }
+
+    footer .footer-links a {
+      color: white;
+      margin: 0 10px;
+    }
+
+
+</style>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="media/nisum-logo.webp" alt="Nisum Logo" style="height: 40px;" />
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <nav class="nav-links" id="navLinks">
+        <a href="LandingPage.html">Home</a>
+        <a href="OrderHistory.html">Orders</a>
+        <a href="#about">About Us</a>
+    </nav>
+</header>
+
+<main class="oder-list-section" id="order-history">
+    <section class="filter-bar">
+        <label for="filter">Filter Orders:</label>
+        <select id="filter" onchange="fetchOrders()">
+            <option value="6months" selected>Past 6 Months</option>
+            <option value="1week">Past 1 Week</option>
+            <option value="1month">Past 1 Month</option>
+            <option value="1year">Past 1 Year</option>
+            <option value="all">All History</option>
+        </select>
+    </section>
+
+    <section id="orders-container">
+        <!-- Cards will be rendered here via JS -->
+    </section>
+
+    <script>
+        function fetchOrders() {
+          const filter = document.getElementById("filter").value;
+          fetch("order-history?range=" + filter)
+            .then(res => res.text())
+            .then(html => {
+              document.getElementById("orders-container").innerHTML = html;
+            });
+        }
+
+        window.onload = fetchOrders;
+    </script>
+
+
+</main>
+
+<footer>
+    <div class="footer-links">
+        <a href="https://github.com/user1" target="_blank">Name1</a>
+        <a href="https://github.com/user2" target="_blank">Name2</a>
+        <a href="https://github.com/user3" target="_blank">Name3</a>
+        <a href="https://github.com/user4" target="_blank">Name4</a>
+    </div>
+    <p class="footer-rights">© All rights reserved</p>
+</footer>
+
+</body>
+</html>

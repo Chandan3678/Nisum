@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nisum Order Management</title>
+    <link rel="stylesheet" href="landing.css" />
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="media/nisum-logo.webp" alt="Nisum Logo" style="height: 40px;" />
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <nav class="nav-links" id="navLinks">
+        <a href="LandingPage.html">Home</a>
+        <a href="OrderHistory.html">Orders</a>
+        <a href="#about">About Us</a>
+    </nav>
+</header>
+
+<main class="hero-section" id="home">
+    <img src="media/orderBG.gif" alt="background" class="hero-bg" />
+    <div class="hero-content">
+        <h1>Nisum Order Management Portal</h1>
+        <p class="typed-line"><span class="typed-words"></span> Services</p>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-links">
+        <a href="https://github.com/user1" target="_blank">Name1</a>
+        <a href="https://github.com/user2" target="_blank">Name2</a>
+        <a href="https://github.com/user3" target="_blank">Name3</a>
+        <a href="https://github.com/user4" target="_blank">Name4</a>
+    </div>
+    <p class="footer-rights">© All rights reserved</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script>
+    var typed = new Typed('.typed-words', {
+      strings: [" Order", " Return", " Cancel", " Delivery", " Gift", " Parcel"],
+      typeSpeed: 80,
+      backSpeed: 80,
+      backDelay: 4000,
+      startDelay: 1000,
+      loop: true,
+      showCursor: true
+    });
+
+    function toggleNav() {
+      document.getElementById("navLinks").classList.toggle("show");
+    }
+</script>
+
+</body>
+</html>

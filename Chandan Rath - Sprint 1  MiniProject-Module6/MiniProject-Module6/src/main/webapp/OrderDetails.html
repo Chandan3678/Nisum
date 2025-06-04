@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order Capture Dashboard</title>
+    <link rel="stylesheet" href="order-details.css" />
+    <style>
+        /* Additional styles for modals and stars */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close {
+            float: right;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .stars {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .star {
+            cursor: pointer;
+            color: #ddd;
+        }
+        .star.selected {
+            color: #ffcc00;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .modal-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .modal-buttons button:first-child {
+            background: #ff3d6b;
+            color: white;
+        }
+        .modal-buttons button:last-child {
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Order Capture Dashboard</h1>
+<div id="order-content"></div>
+
+<!-- Track Package Modal (will be overridden by servlet content) -->
+<div id="trackModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('trackModal').style.display='none'">&times;</span>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<!-- Seller Feedback Modal -->
+<div id="feedbackModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeFeedback()">&times;</span>
+        <h3>Seller Feedback</h3>
+        <div class="stars">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <textarea id="feedbackText" placeholder="Your feedback..."></textarea>
+        <div class="modal-buttons">
+            <button id="submitFeedbackBtn">Submit</button>
+            <button id="closeFeedbackBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Delivery Feedback Modal -->
+<div id="dfModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeDeliveryFeedback()">&times;</span>
+        <h3>Delivery Feedback</h3>
+        <div class="stars">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <textarea id="dfeedbackText" placeholder="Your feedback..."></textarea>
+        <div class="modal-buttons">
+            <button id="submitDeliveryFeedbackBtn">Submit</button>
+            <button id="closeDeliveryFeedbackBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Review Modal -->
+<div id="productmodal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeproductreview()">&times;</span>
+        <h3>Product Review</h3>
+        <textarea id="reviewText" placeholder="Your review..."></textarea>
+        <div class="modal-buttons">
+            <button id="submitProductReviewBtn">Submit</button>
+            <button id="closeProductReviewBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    // Global variables to store ratings
+    let selectedSellerRating = 0;
+    let selectedDeliveryRating = 0;
+
+    // Load order details when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+
+        fetch('order-details-data?orderId=' + orderId)
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('order-content').innerHTML = html;
+                bindAllEventHandlers();
+            })
+            .catch(err => {
+                console.error("Error loading order details:", err);
+            });
+    });
+
+    // Bind all event handlers for buttons and stars
+    function bindAllEventHandlers() {
+        // Track Package button
+        document.querySelector('.button-group button:nth-child(2)')?.addEventListener('click', trackPackage);
+
+        // Seller Feedback
+        document.getElementById('feedbackBtn')?.addEventListener('click', openFeedback);
+        document.getElementById('submitFeedbackBtn')?.addEventListener('click', submitSellerFeedback);
+        document.getElementById('closeFeedbackBtn')?.addEventListener('click', closeFeedback);
+
+        // Delivery Feedback
+        document.getElementById('deliveryFeedbackBtn')?.addEventListener('click', openDeliveryFeedback);
+        document.getElementById('submitDeliveryFeedbackBtn')?.addEventListener('click', submitDeliveryFeedback);
+        document.getElementById('closeDeliveryFeedbackBtn')?.addEventListener('click', closeDeliveryFeedback);
+
+        // Product Review
+        document.getElementById('productReviewBtn')?.addEventListener('click', openProductReview);
+        document.getElementById('submitProductReviewBtn')?.addEventListener('click', submitProductReview);
+        document.getElementById('closeProductReviewBtn')?.addEventListener('click', closeProductReview);
+
+        // Buy Again
+        document.getElementById('buyAgainBtn')?.addEventListener('click', confirmBuyAgain);
+
+        // Bind star rating events
+        bindStarRatingEvents();
+    }
+
+    // Handle star rating selections
+    function bindStarRatingEvents() {
+        // Seller feedback stars
+        document.querySelectorAll('#feedbackModal .star').forEach(star => {
+            star.addEventListener('click', function() {
+                selectedSellerRating = parseInt(this.getAttribute('data-value'));
+                highlightStars('feedbackModal', selectedSellerRating);
+            });
+        });
+
+        // Delivery feedback stars
+        document.querySelectorAll('#dfModal .star').forEach(star => {
+            star.addEventListener('click', function() {
+                selectedDeliveryRating = parseInt(this.getAttribute('data-value'));
+                highlightStars('dfModal', selectedDeliveryRating);
+            });
+        });
+    }
+
+    // Highlight stars up to the selected rating
+    function highlightStars(modalId, rating) {
+        document.querySelectorAll(`#${modalId} .star`).forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('selected');
+            } else {
+                star.classList.remove('selected');
+            }
+        });
+    }
+
+    // Seller Feedback Functions
+    function openFeedback() {
+        selectedSellerRating = 0;
+        highlightStars('feedbackModal', 0);
+        document.getElementById('feedbackText').value = '';
+        document.getElementById('feedbackModal').style.display = 'block';
+    }
+
+    function submitSellerFeedback() {
+        const feedback = document.getElementById('feedbackText').value;
+        if (!selectedSellerRating || !feedback.trim()) {
+            alert("Please provide a rating and write some feedback.");
+            return;
+        }
+        alert(`Thank you for your ${selectedSellerRating}-star feedback!`);
+        closeFeedback();
+    }
+
+    function closeFeedback() {
+        document.getElementById('feedbackModal').style.display = 'none';
+    }
+
+    // Delivery Feedback Functions
+    function openDeliveryFeedback() {
+        selectedDeliveryRating = 0;
+        highlightStars('dfModal', 0);
+        document.getElementById('dfeedbackText').value = '';
+        document.getElementById('dfModal').style.display = 'block';
+    }
+
+    function submitDeliveryFeedback() {
+        const feedback = document.getElementById('dfeedbackText').value;
+        if (!selectedDeliveryRating || !feedback.trim()) {
+            alert("Please provide a rating and write some feedback about the delivery.");
+            return;
+        }
+        alert(`Thank you for your ${selectedDeliveryRating}-star delivery feedback!`);
+        closeDeliveryFeedback();
+    }
+
+    function closeDeliveryFeedback() {
+        document.getElementById('dfModal').style.display = 'none';
+    }
+
+    // Product Review Functions
+    function openProductReview() {
+        document.getElementById('reviewText').value = '';
+        document.getElementById('productmodal').style.display = 'block';
+    }
+
+    function submitProductReview() {
+        const review = document.getElementById('reviewText').value;
+        if (!review.trim()) {
+            alert("Please write your product review.");
+            return;
+        }
+        alert("Thank you for your product review!");
+        closeProductReview();
+    }
+
+    function closeProductReview() {
+        document.getElementById('productmodal').style.display = 'none';
+    }
+</script>
+
+<script src="trackpackage.js"></script>
+<script src="feedback.js"></script>
+<script src="deliveryfeedback.js"></script>
+<script src="productreview.js"></script>
+
+</body>
+</html>
